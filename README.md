@@ -6,7 +6,7 @@ This is a Flask app and a Node.js app deployment project
 
 ### Repository Structure
 ```
-project-root/
+dual_app/
 ├─ ansible/
 │  ├─ playbooks/
 │  ├─ roles/
