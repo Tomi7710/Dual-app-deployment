@@ -13,7 +13,8 @@ dual-app/
 ├─ ansible/
 │   ├─ inventories/            
 │   │   └─ hosts.ini
-│   ├─ playbooks/              
+│   ├─ playbooks/
+│   │   ├─ db.yml      
 │   │   └─ deploy.yml
 │   └─ roles/                  
 │       ├─ deploy_flask/       
@@ -24,7 +25,7 @@ dual-app/
 │       │   ├─ tasks/main.yml
 │       │   ├─ handlers/main.yml
 │       │   └─ templates/
-│       └─ setup_postgres/     
+│       └─ postgreSQL/     
 │           ├─ tasks/main.yml
 │           ├─ handlers/main.yml
 │           └─ templates/
@@ -32,6 +33,7 @@ dual-app/
 │   └─ Jenkinsfile             
 ├─ scripts/
 │   └─ artifact_cleanup.sh     
+├─ ansible.cfg
 ├─ .gitignore
 └─ README.md
 ```
