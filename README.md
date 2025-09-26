@@ -6,11 +6,11 @@ This is a Flask app and a Node.js app deployment project.
 
 Ubuntu Jenkins agent runs Ansible → Ansible connects to CentOS target → CentOS runs Flask + Node.js + PostgreSQL.
 
-  Jenkins master: Amazon Linux → runs Jenkins server.
+•	Jenkins master: Amazon Linux → runs Jenkins server.
 
-  Jenkins agent: Ubuntu → builds artifacts (Flask + Node), runs Ansible.
+•	Jenkins agent: Ubuntu → builds artifacts (Flask + Node), runs Ansible.
 
-  Target EC2: CentOS → runs Flask + Node apps + DB installed via Ansible.
+•	Target EC2: CentOS → runs Flask + Node apps + DB installed via Ansible.
 
 ---
 
