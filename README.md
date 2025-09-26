@@ -6,7 +6,7 @@ This is a Flask app and a Node.js app deployment project
 
 ### Repository Structure
 ```
-project-root/
+dual-app/
 ├─ flask_app/                  
 ├─ node_app/                   
 ├─ db/                         
