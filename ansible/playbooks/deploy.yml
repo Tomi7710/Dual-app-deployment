@@ -1,0 +1,10 @@
+- hosts: db
+  become: yes
+  roles:
+    - postgres
+
+- hosts: webapp
+  become: yes
+  roles:
+    - flask_app
+    - node_app
