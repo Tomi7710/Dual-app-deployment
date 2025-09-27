@@ -1,22 +1,28 @@
 ---
 # tasks file for setup_postgres
 
+# Enable PostgreSQL 13 via Amazon Linux Extras
+- name: Enable PostgreSQL 13 
+  amazon.aws.amazon_linux_extras:
+    name: postgresql13
+    state: enabled
+    
 # Install PostgreSQL server and client
-- name: Install PostgreSQL
+- name: Install PostgreSQL 13
   yum:
     name: 
-      - postgresql-server
-      - postgresql
+      - postgresql13-server
+      - postgresql13
     state: present
 
 - name: Initialize DB
-  command: postgresql-setup initdb
+  command: /usr/bin/postgresql-13-setup initdb
   args:
-    creates: /var/lib/pgsql/data/PG_VERSION
+    creates: /var/lib/pgsql/13/data/PG_VERSION
 
 - name: Start and enable PostgreSQL 
   service:
-    name: postgresql
+    name: postgresql-13
     state: started
     enabled: yes
 
