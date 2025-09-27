@@ -1,6 +1,6 @@
 ## Dual Application Deployment
 
-This is a Flask app and a Node.js app deployment project.
+This project showcases the deployment of a Flask app and a Node.js app with shared database.
 
 ### Workflow
 
@@ -15,6 +15,7 @@ Ubuntu Jenkins agent runs Ansible → Ansible connects to CentOS target → Cent
 ---
 
 ### Repository Structure
+
 ```
 dual-app/
 ├─ flask_app/                  
@@ -23,8 +24,7 @@ dual-app/
 ├─ ansible/
 │   ├─ inventories/            
 │   │   └─ hosts.ini
-│   ├─ playbooks/
-│   │   ├─ db.yml      
+│   ├─ playbooks/     
 │   │   └─ deploy.yml
 │   └─ roles/                  
 │       ├─ deploy_flask/       
@@ -35,8 +35,9 @@ dual-app/
 │       │   ├─ tasks/main.yml
 │       │   ├─ handlers/main.yml
 │       │   └─ templates/
-│       └─ postgreSQL/     
+│       └─ postgres/     
 │           ├─ tasks/main.yml
+│           ├─ files/schema.sql
 │           ├─ handlers/main.yml
 │           └─ templates/
 ├─ jenkins/
@@ -49,3 +50,17 @@ dual-app/
 ```
 
 ---
+
+### postgres role workflow:
+
+•  Installs PostgreSQL server + client.
+
+•  Initializes only once (guarded with creates:).
+
+•  Ensures PostgreSQL service is enabled + running.
+
+•  Copies schema.sql to /tmp/schema.sql.
+
+•  Checks if sharedappdb already exists.
+
+•  Runs schema.sql only if the DB is missing.
