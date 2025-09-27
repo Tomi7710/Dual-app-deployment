@@ -1,10 +1,12 @@
 ---
 # tasks file for setup_postgres
 
-# Install PostgreSQL
+# Install PostgreSQL server and client
 - name: Install PostgreSQL
   yum:
-    name: postgresql-server
+    name: 
+      - postgresql-server
+      - postgresql
     state: present
 
 - name: Initialize DB
@@ -12,24 +14,32 @@
   args:
     creates: /var/lib/pgsql/data/PG_VERSION
 
-- name: Start and enable PostgreSQL
+- name: Start and enable PostgreSQL 
   service:
     name: postgresql
     state: started
     enabled: yes
 
-# Copy the init.sql file from Ansible control machine to Amazon Linux
-- name: Copy init.sql to amazon linux
+# Copy the schema.sql file from Ansible control machine to the target server
+- name: Copy schema.sql to target server
   copy:
     src: files/schema.sql    
     dest: /tmp/schema.sql     
-    owner: ec2-user
-    group: ec2-user
-    mode: '0644'
+    owner: postgres
+    group: postgres
+
+# Check if database already exists
+- name: Check if sharedappdb already exists
+  become_user: postgres
+  command: psql -tAc "SELECT 1 FROM pg_database WHERE datname='sharedappdb'"
+  register: db_exists
+  failed_when: false
+  changed_when: false
 
 # Run the SQL
-- name: Apply init.sql schema
+- name: Apply schema.sql to create sharedappdb
   become_user: postgres
   shell: psql -f /tmp/schema.sql
+  when: db_exists.stdout != "1"
 
 ...
