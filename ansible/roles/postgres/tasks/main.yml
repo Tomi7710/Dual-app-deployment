@@ -1,2 +1,35 @@
 ---
 # tasks file for setup_postgres
+
+# Install PostgreSQL
+- name: Install PostgreSQL
+  yum:
+    name: postgresql-server
+    state: present
+
+- name: Initialize DB
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/PG_VERSION
+
+- name: Start and enable PostgreSQL
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+# Copy the init.sql file from Ansible control machine to Amazon Linux
+- name: Copy init.sql to amazon linux
+  copy:
+    src: files/schema.sql    
+    dest: /tmp/schema.sql     
+    owner: ec2-user
+    group: ec2-user
+    mode: '0644'
+
+# Run the SQL
+- name: Apply init.sql schema
+  become_user: postgres
+  shell: psql -f /tmp/schema.sql
+
+...
