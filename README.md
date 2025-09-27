@@ -29,21 +29,14 @@ dual-app/
 │   └─ roles/                  
 │       ├─ flask_app/       
 │       │   ├─ tasks/main.yml
-│       │   ├─ handlers/main.yml
 │       │   └─ templates/flask-app.service.j2      
 │       ├─ node_app/        
-│       │   ├─ tasks/main.yml
-│       │   ├─ handlers/main.yml
-│       │   └─ templates/
+│       │   └─  tasks/main.yml
 │       └─ postgres/     
 │           ├─ tasks/main.yml
-│           ├─ files/schema.sql
-│           ├─ handlers/main.yml
-│           └─ templates/
+│           └─  files/schema.sql
 ├─ jenkins/
-│   └─ Jenkinsfile             
-├─ scripts/
-│   └─ artifact_cleanup.sh     
+│   └─ Jenkinsfile                
 ├─ ansible.cfg
 ├─ .gitignore
 └─ README.md
@@ -61,9 +54,9 @@ dual-app/
 
 •  Copies schema.sql to /tmp/schema.sql.
 
-•  Checks if sharedappdb already exists.
+•  Checks if sharedappdb exists.
 
-•  Runs schema.sql only if the DB is missing.
+•  Runs schema.sql 
 
 ### flask role workflow:
 

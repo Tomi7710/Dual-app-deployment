@@ -1,0 +1,82 @@
+pipeline {
+    agent { label 'ubuntu-agent' }  
+
+    environment {
+        ARTIFACTS_DIR = "/home/ubuntu/artifacts"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/<your-username>/<your-repo>.git'
+            }
+        }
+
+        stage('Prepare Artifact Dir') {
+            steps {
+                sh "mkdir -p ${ARTIFACTS_DIR}"
+            }
+        }
+
+        stage('Build Flask App') {
+            steps {
+                dir('flask_app') {
+                     sh '''
+                        python3 -m venv venv || true
+                        . venv/bin/activate && pip install -r requirements.txt
+                        tar -czf ${ARTIFACTS_DIR}/flask-app-$(date +%Y%m%d%H%M).tar.gz .
+                    '''
+                }
+            }
+        }
+
+        stage('Build Node App') {
+            steps {
+                dir('node_app') {
+                    sh '''
+                        npm install
+                        tar -czf ${ARTIFACTS_DIR}/node-app-$(date +%Y%m%d%H%M).tar.gz .
+                    '''
+                }
+            }
+        }
+
+        stage('Clean Old Artifacts') {
+            steps {
+                sh """
+                    find ${ARTIFACTS_DIR} -type f -name '*.tar.gz' -mtime +7 -delete
+                """
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                dir('ansible') {
+                    sh "ansible-playbook playbooks/deploy.yml"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment successful!"
+        }
+        failure {
+            echo "❌ Deployment failed. Check logs."
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
