@@ -1,2 +1,51 @@
 ---
 # tasks file for flask_app
+
+- name: Install Python3 and pip
+  yum:
+    name:
+      - python3
+      - python3-pip
+    state: present
+
+- name: Copy Flask artifact from ubuntu agent
+  copy:
+    src: /home/ubuntu/artifacts/flask-app-*.tar.gz
+    dest: /opt/flask-app.tar.gz
+    remote_src: yes
+    owner: ec2-user
+    group: ec2-user
+
+- name: Extract Flask artifact
+  unarchive:
+    src: /opt/flask-app.tar.gz
+    dest: /opt/flask-app
+    remote_src: yes
+    owner: ec2-user
+    group: ec2-user
+
+- name: Create virtual environment and install Python requirements
+  pip:
+    requirements: /opt/flask-app/requirements.txt
+    virtualenv: /opt/flask-app/venv
+    virtualenv_command: python3 -m venv
+    virtualenv_python: python3
+
+- name: Set ownership for Flask app directory
+  file:
+    path: /opt/flask-app
+    owner: ec2-user
+    group: ec2-user
+    recurse: yes
+
+# Create systemd service
+- name: Deploy Flask systemd service
+  template:
+    src: flask-app.service.j2
+    dest: /etc/systemd/system/flask-app.service
+
+- name: Start and enable Flask service
+  systemd:
+    name: flask-app
+    enabled: yes
+    state: started

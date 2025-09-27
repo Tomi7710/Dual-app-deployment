@@ -1,0 +1,16 @@
+[Unit]
+Description=Flask App
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/flask-app
+Environment="PATH=/opt/flask-app/venv/bin"
+Environment="DB_HOST=localhost"
+Environment="DB_NAME=sharedappdb"
+Environment="DB_USER=postgres"
+Environment="DB_PASS="
+ExecStart=/opt/flask-app/venv/bin/python app.py
+
+[Install]
+WantedBy=multi-user.target
