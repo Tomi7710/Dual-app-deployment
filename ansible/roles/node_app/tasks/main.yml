@@ -38,5 +38,5 @@
   command: pm2 save
 
 - name: Configure PM2 to auto-start on reboot
-  command: pm2 startup systemd -u centos --hp /home/centos
+  command: pm2 startup systemd -u ec2-user --hp /home/ec2-user
 ...
