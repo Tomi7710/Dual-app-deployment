@@ -1,11 +1,15 @@
 ---
 # tasks file for setup_postgres
 
-# Enable PostgreSQL 13 via Amazon Linux Extras
-- name: Enable PostgreSQL 13 
-  amazon.aws.amazon_linux_extras:
-    name: postgresql13
-    state: enabled
+# Add PostgreSQL 13 official repo
+- name: Add PostgreSQL 13 repository
+  yum_repository:
+    name: pgdg13
+    description: "PostgreSQL 13 Repository"
+    baseurl: https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64/
+    gpgcheck: yes
+    gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG
+    state: present
     
 # Install PostgreSQL server and client
 - name: Install PostgreSQL 13
