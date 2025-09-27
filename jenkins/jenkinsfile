@@ -51,9 +51,7 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                dir('ansible') {
-                    sh "ANSIBLE_CONFIG=../ansible.cfg ansible-playbook playbooks/deploy.yml"
-                }
+                    sh "ansible-playbook ansible/playbooks/deploy.yml"
             }
         }
     }
