@@ -1,5 +1,4 @@
 ---
-# ansible/playbooks/deploy.yml
 
 - name: Setup PostgreSQL DB
   hosts: db
@@ -26,3 +25,5 @@
     node_app_dir: /home/ec2-user/node_app
   roles:
     - node_app
+
+...
