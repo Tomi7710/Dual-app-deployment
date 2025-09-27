@@ -46,17 +46,17 @@ dual-app/
 
 ### postgres role workflow:
 
-•  Installs PostgreSQL server + client.
+•  Install PostgreSQL server + client.
 
-•  Initializes only once (guarded with creates:).
+•  Initialize only once (guarded with creates:).
 
-•  Ensures PostgreSQL service is enabled + running.
+•  Ensure PostgreSQL service is enabled + running.
 
-•  Copies schema.sql to /tmp/schema.sql.
+•  Copy schema.sql to /tmp/schema.sql.
 
-•  Checks if sharedappdb exists.
+•  Check if sharedappdb exists.
 
-•  Runs schema.sql 
+•  Run schema.sql 
 
 ### flask role workflow:
 
