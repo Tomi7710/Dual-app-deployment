@@ -1,16 +1,28 @@
+---
+# ansible/playbooks/deploy.yml
+
 - name: Setup PostgreSQL DB
   hosts: db
   become: yes
-  vars_files:
-    - vars/app_vars.yml
   roles:
     - postgres
 
-- name: Deploy Flask and Node.js App
+- name: Deploy Flask App
   hosts: webapp
   become: yes
-  vars_files:
-    - vars/app_vars.yml
+  vars:
+    flask_port: 5000
+    flask_user: ec2-user
+    flask_app_dir: /home/ec2-user/flask_app
   roles:
     - flask_app
+
+- name: Deploy Node.js App
+  hosts: webapp
+  become: yes
+  vars:
+    node_port: 3000
+    node_user: ec2-user
+    node_app_dir: /home/ec2-user/node_app
+  roles:
     - node_app
