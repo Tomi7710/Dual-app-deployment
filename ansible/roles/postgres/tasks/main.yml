@@ -20,6 +20,14 @@
     state: started
     enabled: yes
 
+# Create database user for Node.js/Flask app
+- name: Create devops user with password
+  become_user: postgres
+  postgresql_user:
+    name: devops
+    password: password
+    state: present
+
 # Copy the schema.sql file from Ansible control machine to the target server
 - name: Copy schema.sql to target server
   copy:

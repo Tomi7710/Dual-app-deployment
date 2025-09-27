@@ -1,0 +1,42 @@
+---
+# tasks file for deploy_node
+- name: Install Node.js and npm
+  yum:
+    name:
+      - nodejs
+      - npm
+    state: present
+
+- name: Copy Node artifact from jenkins agent
+  copy:
+    src: /home/ubuntu/artifacts/node-app-*.tar.gz
+    dest: /opt/node-app.tar.gz
+    remote_src: yes
+
+- name: Extract Node artifact
+  unarchive:
+    src: /opt/node-app.tar.gz
+    dest: /opt/node-app
+    remote_src: yes
+
+- name: Install Node dependencies
+  npm:
+    path: /opt/node-app
+    production: yes
+
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
+
+- name: Start Node app with PM2
+  command: pm2 start index.js --name node-app
+  args:
+    chdir: /opt/node-app
+
+- name: Save PM2 process for startup
+  command: pm2 save
+
+- name: Configure PM2 to auto-start on reboot
+  command: pm2 startup systemd -u centos --hp /home/centos
+...

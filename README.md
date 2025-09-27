@@ -1,6 +1,6 @@
 ## Dual Application Deployment
 
-This project showcases the deployment of a Flask app and a Node.js app with shared database.
+This project showcases the deployment of a Flask app and a Node.js app using a shared PostgreSQL database.
 
 ### Workflow
 
@@ -27,11 +27,11 @@ dual-app/
 │   ├─ playbooks/     
 │   │   └─ deploy.yml
 │   └─ roles/                  
-│       ├─ deploy_flask/       
+│       ├─ flask_app/       
 │       │   ├─ tasks/main.yml
 │       │   ├─ handlers/main.yml
-│       │   └─ templates/      
-│       ├─ deploy_node/        
+│       │   └─ templates/flask-app.service.j2      
+│       ├─ node_app/        
 │       │   ├─ tasks/main.yml
 │       │   ├─ handlers/main.yml
 │       │   └─ templates/
@@ -64,3 +64,35 @@ dual-app/
 •  Checks if sharedappdb already exists.
 
 •  Runs schema.sql only if the DB is missing.
+
+### flask role workflow:
+
+•  Install Python3 and pip.
+
+•  Copy Flask artifact from the build agent
+
+•  Extract the artifact
+
+•  Create virtual environment and install dependencies
+
+•  Deploy systemd service
+
+•  Start and enable the Flask service
+
+### node role workflow:
+
+•  Install Node.js & npm
+
+•  Copy artifact from jenkins agent
+
+•  Extract artifact
+
+•  Install dependencies
+
+•  Install PM2 globally
+
+•  Start app with PM2
+
+•  Save PM2 process
+
+•  Enable auto-start on reboot
