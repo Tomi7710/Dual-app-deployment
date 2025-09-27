@@ -1,0 +1,7 @@
+flask_port: 5000
+flask_user: ec2-user
+flask_app_dir: /home/ec2-user/flask_app
+
+node_port: 3000
+node_user: ec2-user
+node_app_dir: /home/ec2-user/node_app
