@@ -1,10 +1,16 @@
-- hosts: db
+- name: Setup PostgreSQL DB
+  hosts: db
   become: yes
+  vars_files:
+    - vars/app_vars.yml
   roles:
     - postgres
 
-- hosts: webapp
+- name: Deploy Flask and Node.js App
+  hosts: webapp
   become: yes
+  vars_files:
+    - vars/app_vars.yml
   roles:
     - flask_app
     - node_app
